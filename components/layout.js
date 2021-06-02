@@ -4,7 +4,7 @@ import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
 const hostname = process.env.NEXT_PUBLIC_HOSTNAME;
-export const siteTitle = '(e)malinowy maciek-placek'
+export const siteTitle = '(e)malinowy dziennik sieciowy'
 
 export default function Layout({ children, home }) {
   return (
