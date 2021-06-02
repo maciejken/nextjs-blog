@@ -3,8 +3,8 @@ import styles from './layout.module.css'
 import utilStyles from '../styles/utils.module.css'
 import Link from 'next/link'
 
-const name = 'Maciek'
-export const siteTitle = 'Strona przykładowa (Next.js)'
+const hostname = process.env.NEXT_PUBLIC_HOSTNAME;
+export const siteTitle = '(e)malinowy maciek-placek'
 
 export default function Layout({ children, home }) {
   return (
@@ -32,9 +32,9 @@ export default function Layout({ children, home }) {
               className={utilStyles.borderCircle}
               height={144}
               width={144}
-              alt={name}
+              alt={hostname}
             />
-            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+            <h1 className={utilStyles.heading2Xl}>{hostname}</h1>
           </>
         ) : (
           <>
@@ -45,13 +45,13 @@ export default function Layout({ children, home }) {
                   className={utilStyles.borderCircle}
                   height={108}
                   width={108}
-                  alt={name}
+                  alt={hostname}
                 />
               </a>
             </Link>
             <h2 className={utilStyles.headingLg}>
               <Link href="/">
-                <a className={utilStyles.colorInherit}>{name}</a>
+                <a className={utilStyles.colorInherit}>{hostname}</a>
               </Link>
             </h2>
           </>
@@ -61,7 +61,7 @@ export default function Layout({ children, home }) {
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
-            <a>← Strona główna</a>
+            <a className="link-to-index">← Strona główna</a>
           </Link>
         </div>
       )}
