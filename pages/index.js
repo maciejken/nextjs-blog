@@ -23,12 +23,13 @@ export default function Home({ allPostsData }) {
       <section className={utilStyles.headingMd}>
         <p>Cześć, jestem Maciek! </p>
         <p>
-          Ta strona powstała z nudów, zbudujesz podobną krok po kroku{' '}
-          <a href="https://nextjs.org/learn">z&nbsp;samouczkiem Next.js</a>.
+          Ta strona istnieje dzięki malinom zasilanym energią elektryczną{' '}
+          (naprawdę niewiele jej zużywają). Zbudujesz podobną krok po kroku{' '}
+          z&nbsp;<a href="https://nextjs.org/learn">samouczkiem Next.js</a>.
         </p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
+        <h2 className={utilStyles.headingLg}>Dziennik</h2>
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
