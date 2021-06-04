@@ -1,5 +1,5 @@
 import diff from 'fast-diff';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import keyMaps from '../constants/keymaps';
 import Link from 'next/link';
 
@@ -28,14 +28,22 @@ function mapInput({ currentValue, value, keyMap }) {
 
 export default function Abc() {
   const [currentValue, setValue] = useState('');
-  const handleInput = ({ target }) => {
-    const { selectionEnd, value } = target;
-    const input = mapInput({ currentValue, value, keyMap: 'dvorakToPuk' });
-    setValue(input);
+  const [cursorPosition, setCursorPosition] = useState(0);
+  const handleInput = (evt) => {
+    const { selectionEnd, value } = evt.target;
+    const mappedInput = mapInput({ currentValue, value, keyMap: 'dvorakToPuk' });
+    setValue(mappedInput);
+    setCursorPosition(selectionEnd);
   };
+
+  useEffect(() => {
+    const textarea = document.getElementById('abc-input');
+    textarea.selectionEnd = cursorPosition;
+  }, [cursorPosition]);
+
   return (
     <div className="container">
-      <textarea onInput={handleInput} value={currentValue}></textarea>
+      <textarea onInput={handleInput} value={currentValue} id="abc-input"></textarea>
       <Link href="/">
         <a className="link-to-index">← Strona główna</a>
       </Link>
