@@ -10,6 +10,13 @@
   align-items: center;
 }
 
+.headNav {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .backToHome {
   margin: 3rem 0 0;
 }
