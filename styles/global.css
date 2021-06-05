@@ -28,12 +28,17 @@ img {
   display: block;
 }
 
-textarea {
-  width: 500px;
-  height: 250px;
-}
-
 .container {
   width: 500px;
   margin: 0 auto;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
 }

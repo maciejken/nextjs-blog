@@ -1,5 +1,20 @@
-export default {
-  qwertyToPuk: {
+export const keymapOptions = [
+  {
+    value: 'dvorak',
+    label: 'dvorak',
+  },
+  {
+    value: 'qwerty',
+    label: 'qwerty',
+  },
+  {
+    value: 'none',
+    label: 'brak mapowania',
+  },
+];
+
+export const keymaps = {
+  qwerty: {
     // central row
     a: 'y',
     s: 'i',
@@ -97,7 +112,7 @@ export default {
     '_': '\'',
     '+': '>'
   },
-  dvorakToPuk: {
+  dvorak: {
     // central row
     a: 'y',
     o: 'i',
