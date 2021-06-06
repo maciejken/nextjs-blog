@@ -23,9 +23,12 @@ export default function Home({ allPostsData }) {
       <section className={utilStyles.headingMd}>
         <p>Cześć, jestem Maciek! </p>
         <p>
-          Ta strona istnieje dzięki malinom zasilanym energią elektryczną{' '}
-          (naprawdę niewiele jej zużywają). Zbudujesz podobną krok po kroku{' '}
-          z&nbsp;<a href="https://nextjs.org/learn">samouczkiem Next.js</a>.
+          Ta strona istnieje dzięki malinom zasilanym energią elektryczną.{' '}
+          Zbudujesz podobną krok po kroku z{' '}
+          <a href="https://nextjs.org/learn" target="_blank">samouczkiem Next.js</a>.
+        </p>
+        <p>
+          
         </p>
       </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>

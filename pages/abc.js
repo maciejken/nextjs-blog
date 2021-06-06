@@ -82,7 +82,7 @@ export default function Abc() {
         </textarea>
         {infoTimeout && <div className="abc-input-info">Skopiowano!</div>}
       </div>
-      <div className="controls row">
+      <div className="abc-controls row">
         <Button onClick={copyToClipboard}>
           Kopiuj
         </Button>
@@ -112,7 +112,7 @@ export default function Abc() {
           outline: green solid 2px;
         }
         .abc-input-wrapper {
-          margin: 0.5rem 0;
+          margin: 1rem 0 0.5rem;
           position: relative;
           width: 100%;
           height: 300px;
@@ -127,9 +127,10 @@ export default function Abc() {
           color: green;
           text-align: right;
         }
-        .controls {
+        .abc-controls {
           justify-content: space-between;
           align-items: flex-start;
+          margin-bottom: 1rem;
         }
       `}</style>
     </div>

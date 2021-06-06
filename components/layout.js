@@ -25,42 +25,14 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-        <nav className={styles.headNav}>
+        <nav className={styles.headerNav}>
+          <Link href="/" className={styles.navItem}>
+            <a>{hostname}</a>
+          </Link>
           <Link href="/abc">
-            <a>Pisz po polsku</a>
+            <a className={styles.navItem}>Pisz po polsku</a>
           </Link>
         </nav>
-        {home ? (
-          <>
-            <img
-              src="/images/profile.jpg"
-              className={utilStyles.borderCircle}
-              height={144}
-              width={144}
-              alt={hostname}
-            />
-            <h1 className={utilStyles.heading2Xl}>{hostname}</h1>
-          </>
-        ) : (
-          <>
-            <Link href="/">
-              <a>
-                <img
-                  src="/images/profile.jpg"
-                  className={utilStyles.borderCircle}
-                  height={108}
-                  width={108}
-                  alt={hostname}
-                />
-              </a>
-            </Link>
-            <h2 className={utilStyles.headingLg}>
-              <Link href="/">
-                <a className={utilStyles.colorInherit}>{hostname}</a>
-              </Link>
-            </h2>
-          </>
-        )}
       </header>
       <main>{children}</main>
       {!home && (
