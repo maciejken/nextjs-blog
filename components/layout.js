@@ -26,8 +26,8 @@ export default function Layout({ children, home }) {
       </Head>
       <header className={styles.header}>
         <nav className={styles.headerNav}>
-          <Link href="/" className={styles.navItem}>
-            <a>{hostname}</a>
+          <Link href="/">
+            <a className={styles.navItem}>{hostname}</a>
           </Link>
           <Link href="/abc">
             <a className={styles.navItem}>Pisz po polsku</a>

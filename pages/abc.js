@@ -2,8 +2,8 @@ import diff from 'fast-diff';
 import { createRef, useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { keymaps, keymapOptions } from '../constants/keymaps';
-import Link from 'next/link';
-import RadioGroup from '../components/radio-group';
+import Layout from '../components/layout';
+import Select from '../components/select';
 import Button from '../components/button';
 
 function mapKeys(str, dict) {
@@ -69,7 +69,7 @@ export default function Abc() {
   }, [cursorPosition]);
 
   return (
-    <div className="container">
+    <Layout>
       <div className="abc-input-wrapper">
         <textarea
           onInput={handleInput}
@@ -89,17 +89,12 @@ export default function Abc() {
         <Button onClick={clearText}>
           Wyczyść
         </Button>
-        <RadioGroup
+        <Select
           options={keymapOptions}
           value={keys}
           name="keymap"
           onChange={handleKeymapChange}
         />
-      </div>
-      <div>
-        <Link href="/">
-          <a className="link-to-index">← Strona główna</a>
-        </Link>
       </div>
       <style jsx>{`
         .abc-input {
@@ -107,6 +102,7 @@ export default function Abc() {
           width: 100%;
           height: 100%;
           resize: none;
+          border: 1px solid rgba(0,0,0,.2);
         }
         .copied {
           outline: green solid 2px;
@@ -129,10 +125,10 @@ export default function Abc() {
         }
         .abc-controls {
           justify-content: space-between;
-          align-items: flex-start;
+          align-items: stretch;
           margin-bottom: 1rem;
         }
       `}</style>
-    </div>
+    </Layout>
   )
 }

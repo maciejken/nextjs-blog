@@ -9,7 +9,7 @@ export const keymapOptions = [
   },
   {
     value: 'none',
-    label: 'brak mapowania',
+    label: 'brak',
   },
 ];
 
