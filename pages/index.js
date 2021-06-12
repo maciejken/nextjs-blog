@@ -20,23 +20,12 @@ export default function Home({ allPostsData }) {
       <Head>
         <title>{siteTitle}</title>
       </Head>
-      <section className={utilStyles.headingMd}>
-        <p>Cześć, jestem Maciek! </p>
-        <p>
-          Ta strona istnieje dzięki malinom zasilanym energią elektryczną.{' '}
-          Zbudujesz podobną krok po kroku z{' '}
-          <a href="https://nextjs.org/learn" target="_blank">samouczkiem Next.js</a>.
-        </p>
-        <p>
-          
-        </p>
-      </section>
       <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
         <h2 className={utilStyles.headingLg}>Dziennik</h2>
         <ul className={utilStyles.list}>
           {allPostsData.map(({ id, date, title }) => (
             <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
+              <Link href={`/dziennik/${id}`}>
                 <a>{title}</a>
               </Link>
               <br />

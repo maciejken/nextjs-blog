@@ -1,9 +1,9 @@
-import Head from 'next/head'
-import styles from './layout.module.css'
-import utilStyles from '../styles/utils.module.css'
-import Link from 'next/link'
+import Head from 'next/head';
+import styles from './layout.module.css';
+import Link from 'next/link';
+import Nav from '../components/nav';
+import { navLinks } from '../constants/navlinks';
 
-const hostname = process.env.NEXT_PUBLIC_HOSTNAME;
 export const siteTitle = '(e)malinowy dziennik sieciowy'
 
 export default function Layout({ children, home }) {
@@ -25,20 +25,13 @@ export default function Layout({ children, home }) {
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <header className={styles.header}>
-        <nav className={styles.headerNav}>
-          <Link href="/">
-            <a className={styles.navItem}>{hostname}</a>
-          </Link>
-          <Link href="/abc">
-            <a className={styles.navItem}>Pisz po polsku</a>
-          </Link>
-        </nav>
+        <Nav links={navLinks} />
       </header>
       <main>{children}</main>
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
-            <a className="link-to-index">← Strona główna</a>
+            <a>← Strona główna</a>
           </Link>
         </div>
       )}

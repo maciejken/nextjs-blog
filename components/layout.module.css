@@ -8,17 +8,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 4rem;
-}
-
-.headerNav {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-}
-
-.navItem {
-  padding: 0.5rem 0;
 }
 
 .backToHome {

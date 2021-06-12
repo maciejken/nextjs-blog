@@ -2,6 +2,7 @@ import diff from 'fast-diff';
 import { createRef, useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { keymaps, keymapOptions } from '../constants/keymaps';
+import { navLinks } from '../constants/navlinks';
 import Layout from '../components/layout';
 import Select from '../components/select';
 import Button from '../components/button';
@@ -34,6 +35,8 @@ export default function Abc() {
   const [cursorPosition, setCursorPosition] = useState(0);
   const [keys, setKeys] = useState('dvorak');
   const [infoTimeout, setInfoTimeout] = useState(null);
+  const tabOffset = navLinks.length;
+
   const abcInput = createRef();
   const handleInput = (evt) => {
     const { selectionEnd, value } = evt.target;
@@ -78,15 +81,16 @@ export default function Abc() {
           className={classnames("abc-input", {
             copied: !!infoTimeout,
           })}
+          tabIndex={tabOffset + 1}
         >
         </textarea>
         {infoTimeout && <div className="abc-input-info">Skopiowano!</div>}
       </div>
       <div className="abc-controls row">
-        <Button onClick={copyToClipboard}>
+        <Button onClick={copyToClipboard} tabIndex={tabOffset + 2}>
           Kopiuj
         </Button>
-        <Button onClick={clearText}>
+        <Button onClick={clearText} tabIndex={tabOffset + 3}>
           Wyczyść
         </Button>
         <Select
@@ -94,6 +98,7 @@ export default function Abc() {
           value={keys}
           name="keymap"
           onChange={handleKeymapChange}
+          tabIndex={tabOffset + 4}
         />
       </div>
       <style jsx>{`
@@ -108,7 +113,7 @@ export default function Abc() {
           outline: green solid 2px;
         }
         .abc-input-wrapper {
-          margin: 1rem 0 0.5rem;
+          margin: 2rem 0 0.5rem;
           position: relative;
           width: 100%;
           height: 300px;
