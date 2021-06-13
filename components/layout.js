@@ -35,6 +35,9 @@ export default function Layout({ children, home }) {
           </Link>
         </div>
       )}
+      <footer>
+        
+      </footer>
     </div>
   )
 }
