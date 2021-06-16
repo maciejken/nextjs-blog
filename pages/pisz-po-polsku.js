@@ -30,10 +30,13 @@ function mapInput({ currentValue, value, keys }) {
     .join('');
 }
 
+const AltKeyCode = 'AltRight';
+
 export default function Abc() {
   const [currentValue, setValue] = useState('');
   const [cursorPosition, setCursorPosition] = useState(0);
   const [keys, setKeys] = useState('dvorak');
+  const [altKeysEnabled, setAltKeysEnabled] = useState(false);
   const [infoTimeout, setInfoTimeout] = useState(null);
   const tabOffset = navLinks.length;
 
@@ -43,9 +46,24 @@ export default function Abc() {
     const mappedInput = mapInput({ currentValue, value, keys });
     setValue(mappedInput);
     setCursorPosition(selectionEnd);
+    if (altKeysEnabled) {
+      console.log('alt keys enabled');
+    }
   };
   const handleKeymapChange = (evt) => {
     setKeys(evt.target.value);
+  };
+  const handleKeyDown = (evt) => {
+    if (evt.code === AltKeyCode) {
+      // evt.preventDefault();
+      setAltKeysEnabled(true);
+    }
+  };
+  const handleKeyUp = (evt) => {
+    if (evt.code === AltKeyCode) {
+      // evt.preventDefault();
+      setAltKeysEnabled(false);
+    }
   };
   const showInfo = () => {
     const timeout = setTimeout(() => {
@@ -76,6 +94,8 @@ export default function Abc() {
       <div className="abc-input-wrapper">
         <textarea
           onInput={handleInput}
+          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
           value={currentValue}
           ref={abcInput}
           className={classnames("abc-input", {
