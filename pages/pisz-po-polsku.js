@@ -1,4 +1,3 @@
-import diff from 'fast-diff';
 import { createRef, useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { keymaps, keymapOptions } from '../constants/keymaps';
@@ -7,62 +6,60 @@ import Layout from '../components/layout';
 import Select from '../components/select';
 import Button from '../components/button';
 
-function mapKeys(str, dict) {
-  return str.split('')
-    .map(key => dict && dict[key] ? dict[key] : key)
-    .join('');
+const getTextAreaSetterByPropName = (propName) => {
+  return Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, propName).set;
 }
 
-function mapInput({ currentValue, value, keys }) {
-  return diff(currentValue, value)
-    .map(s => {
-      const [mode, str] = s;
-      let v;
-      if (mode === diff.INSERT) {
-        v = mapKeys(str, keymaps[keys]);
-      } else if (mode === diff.EQUAL) {
-        v = str;
-      } else {
-        v = '';
-      }
-      return v;
-    })
-    .join('');
-}
-
-const AltKeyCode = 'AltRight';
+const getSelectionLength = (input) => (input.selectionEnd - input.selectionStart);
 
 export default function Abc() {
-  const [currentValue, setValue] = useState('');
-  const [cursorPosition, setCursorPosition] = useState(0);
-  const [keys, setKeys] = useState('dvorak');
-  const [altKeysEnabled, setAltKeysEnabled] = useState(false);
+  const [currentValue, setCurrentValue] = useState('');
+  const [selectionStart, setSelectionStart] = useState(0);
+  const [selectionEnd, setSelectionEnd] = useState(0);
+  const [keyboard, setKeyboard] = useState('dvorak');
   const [infoTimeout, setInfoTimeout] = useState(null);
   const tabOffset = navLinks.length;
 
   const abcInput = createRef();
+  const handleClick = (evt) => {
+    setSelectionStart(evt.target.selectionStart);
+    setSelectionEnd(evt.target.selectionEnd);
+  };
   const handleInput = (evt) => {
-    const { selectionEnd, value } = evt.target;
-    const mappedInput = mapInput({ currentValue, value, keys });
-    setValue(mappedInput);
-    setCursorPosition(selectionEnd);
-    if (altKeysEnabled) {
-      console.log('alt keys enabled');
-    }
+    setCurrentValue(evt.target.value);
+    evt.target.selectionEnd = selectionEnd;
+    evt.target.selectionStart = selectionStart;
   };
   const handleKeymapChange = (evt) => {
-    setKeys(evt.target.value);
+    setKeyboard(evt.target.value);
   };
   const handleKeyDown = (evt) => {
-    if (evt.code === AltKeyCode) {
-      // evt.preventDefault();
-      setAltKeysEnabled(true);
-    }
-  };
-  const handleKeyUp = (evt) => {
-    if (evt.code === AltKeyCode) {
-      // evt.preventDefault();
-      setAltKeysEnabled(false);
+    if (!evt.ctrlKey && evt.key.length === 1) {
+      evt.preventDefault();
+      const x = evt.target.selectionStart + 1;
+      setSelectionEnd(x);
+      setSelectionStart(x);
+      const textArea = document.getElementById('abc-input');
+      const key = keymaps[keyboard].keys[evt.key] || '';
+      const altKey = keymaps[keyboard].altKeys[evt.key] || '';
+      const leftPart = currentValue.substring(0, evt.target.selectionStart);
+      const rightPart = currentValue.substring(evt.target.selectionEnd);
+      const valueSetter = getTextAreaSetterByPropName('value');
+      const value = `${leftPart}${evt.altKey ? altKey : key}${rightPart}`;
+      valueSetter.call(textArea, value);
+      const inputEvt = new Event('input', { bubbles: true });
+      textArea.dispatchEvent(inputEvt);
+    } else if (evt.key === 'Alt') {
+      evt.preventDefault();
+    } else if (evt.key === 'Backspace' || evt.key === 'Delete') {
+      const selectionLength = getSelectionLength(evt.target);
+      const x = selectionLength ? evt.target.selectionStart : evt.target.selectionStart - 1;
+      setSelectionStart(x);
+      setSelectionEnd(x);
+    } else {
+      const x = evt.target.selectionEnd;
+      setSelectionStart(x);
+      setSelectionEnd(x);
     }
   };
   const showInfo = () => {
@@ -77,31 +74,33 @@ export default function Abc() {
   };
   const clearText = () => {
     copyToClipboard();
-    setValue('');
+    setCurrentValue('');
   };
 
   useEffect(() => {
-    abcInput.current.selectionEnd = cursorPosition;
+    abcInput.current.selectionStart = selectionStart;
+    abcInput.current.selectionEnd = selectionEnd;
     return () => {
       if (infoTimeout) {
         clearTimeout(infoTimeout);
       }
     }
-  }, [cursorPosition]);
+  }, [currentValue]);
 
   return (
     <Layout>
       <div className="abc-input-wrapper">
         <textarea
+          onClick={handleClick}
           onInput={handleInput}
           onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUp}
           value={currentValue}
           ref={abcInput}
           className={classnames("abc-input", {
             copied: !!infoTimeout,
           })}
           tabIndex={tabOffset + 1}
+          id="abc-input"
         >
         </textarea>
         {infoTimeout && <div className="abc-input-info">Skopiowano!</div>}
@@ -115,7 +114,7 @@ export default function Abc() {
         </Button>
         <Select
           options={keymapOptions}
-          value={keys}
+          value={keyboard}
           name="keymap"
           onChange={handleKeymapChange}
           tabIndex={tabOffset + 4}
