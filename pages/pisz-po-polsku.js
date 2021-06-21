@@ -25,6 +25,10 @@ export default function Abc() {
     setSelectionStart(evt.target.selectionStart);
     setSelectionEnd(evt.target.selectionEnd);
   };
+  const handleDrop = (evt) => {
+    setSelectionStart(currentValue.length);
+    setSelectionEnd(currentValue.length);
+  };
   const handleInput = (evt) => {
     setCurrentValue(evt.target.value);
     evt.target.selectionEnd = selectionEnd;
@@ -92,6 +96,7 @@ export default function Abc() {
       <div className="abc-input-wrapper">
         <textarea
           onClick={handleClick}
+          onDrop={handleDrop}
           onInput={handleInput}
           onKeyDown={handleKeyDown}
           value={currentValue}
