@@ -11,6 +11,7 @@ const getTextAreaSetterByPropName = (propName) => {
 }
 
 const getSelectionLength = (input) => (input.selectionEnd - input.selectionStart);
+const localStorageKey = 'AbcInput';
 
 export default function Abc() {
   const [currentValue, setCurrentValue] = useState('');
@@ -38,7 +39,9 @@ export default function Abc() {
     setKeyboard(evt.target.value);
   };
   const handleKeyDown = (evt) => {
-    if (!evt.ctrlKey && evt.key.length === 1) {
+    const shouldMapKey = !evt.ctrlKey &&
+      (evt.key.length === 1 || evt.key === 'Enter');
+    if (shouldMapKey) {
       evt.preventDefault();
       const x = evt.target.selectionStart + 1;
       setSelectionEnd(x);
@@ -56,8 +59,9 @@ export default function Abc() {
     } else if (evt.key === 'Alt') {
       evt.preventDefault();
     } else if (evt.key === 'Backspace' || evt.key === 'Delete') {
+      const slxnStart = evt.target.selectionStart;
       const selectionLength = getSelectionLength(evt.target);
-      const x = selectionLength ? evt.target.selectionStart : evt.target.selectionStart - 1;
+      const x = selectionLength ? slxnStart : slxnStart - 1;
       setSelectionStart(x);
       setSelectionEnd(x);
     } else {
@@ -79,11 +83,19 @@ export default function Abc() {
   const clearText = () => {
     copyToClipboard();
     setCurrentValue('');
+    localStorage.setItem(localStorageKey, '');
   };
+
+  useEffect(() => {
+    if (!currentValue) {
+      setCurrentValue(localStorage.getItem(localStorageKey));
+    }
+  }, []);
 
   useEffect(() => {
     abcInput.current.selectionStart = selectionStart;
     abcInput.current.selectionEnd = selectionEnd;
+    localStorage.setItem(localStorageKey, currentValue);
     return () => {
       if (infoTimeout) {
         clearTimeout(infoTimeout);
