@@ -87,9 +87,8 @@ export default function Abc() {
   };
 
   useEffect(() => {
-    if (!currentValue) {
-      setCurrentValue(localStorage.getItem(localStorageKey));
-    }
+    const value = localStorage.getItem(localStorageKey) || '';
+    setCurrentValue(value);
   }, []);
 
   useEffect(() => {
