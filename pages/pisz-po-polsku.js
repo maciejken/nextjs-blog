@@ -22,18 +22,33 @@ export default function Abc() {
   const tabOffset = navLinks.length;
 
   const abcInput = createRef();
+
+  const dispatchInput = ({ value, selectionEnd }) => {
+    const textArea = document.getElementById('abc-input');
+    const valueSetter = getTextAreaSetterByPropName('value');
+    valueSetter.call(textArea, value);
+    const selectionStartSetter = getTextAreaSetterByPropName('selectionStart');
+    selectionStartSetter.call(textArea, selectionEnd + 1);
+    const selectionEndSetter = getTextAreaSetterByPropName('selectionEnd');
+    selectionEndSetter.call(textArea, selectionEnd + 1);
+    const inputEvt = new Event('input', { bubbles: true });
+    textArea.dispatchEvent(inputEvt);
+  };
   const handleClick = (evt) => {
+    // console.log('click', evt.target.value);
     setSelectionStart(evt.target.selectionStart);
     setSelectionEnd(evt.target.selectionEnd);
   };
-  const handleDrop = (evt) => {
-    setSelectionStart(currentValue.length);
-    setSelectionEnd(currentValue.length);
+  const handleDragEnd = (evt) => {
+    // console.log('dragend', evt.target.value);
+    evt.target.selectionStart = evt.target.selectionEnd;
   };
   const handleInput = (evt) => {
+    // console.log('input', evt.target.value);
+    setSelectionStart(evt.target.selectionStart);
+    setSelectionEnd(evt.target.selectionEnd);
     setCurrentValue(evt.target.value);
     evt.target.selectionEnd = selectionEnd;
-    evt.target.selectionStart = selectionStart;
   };
   const handleKeymapChange = (evt) => {
     setKeyboard(evt.target.value);
@@ -43,19 +58,17 @@ export default function Abc() {
       (evt.key.length === 1 || evt.key === 'Enter');
     if (shouldMapKey) {
       evt.preventDefault();
-      const x = evt.target.selectionStart + 1;
-      setSelectionEnd(x);
-      setSelectionStart(x);
-      const textArea = document.getElementById('abc-input');
       const key = keymaps[keyboard].keys[evt.key] || '';
       const altKey = keymaps[keyboard].altKeys[evt.key] || '';
       const leftPart = currentValue.substring(0, evt.target.selectionStart);
       const rightPart = currentValue.substring(evt.target.selectionEnd);
-      const valueSetter = getTextAreaSetterByPropName('value');
       const value = `${leftPart}${evt.altKey ? altKey : key}${rightPart}`;
-      valueSetter.call(textArea, value);
-      const inputEvt = new Event('input', { bubbles: true });
-      textArea.dispatchEvent(inputEvt);
+      if (key || altKey) {
+        const x = evt.target.selectionStart + 1;
+        setSelectionEnd(x);
+        setSelectionStart(x);
+      }
+      dispatchInput({ value, selectionEnd });
     } else if (evt.key === 'Alt') {
       evt.preventDefault();
     } else if (evt.key === 'Backspace' || evt.key === 'Delete') {
@@ -107,7 +120,7 @@ export default function Abc() {
       <div className="abc-input-wrapper">
         <textarea
           onClick={handleClick}
-          onDrop={handleDrop}
+          onDragEnd={handleDragEnd}
           onInput={handleInput}
           onKeyDown={handleKeyDown}
           value={currentValue}
