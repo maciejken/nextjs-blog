@@ -10,7 +10,6 @@ const getTextAreaSetterByPropName = (propName) => {
   return Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, propName).set;
 }
 
-const getSelectionLength = (input) => (input.selectionEnd - input.selectionStart);
 const localStorageKey = 'AbcInput';
 
 export default function Abc() {
@@ -33,11 +32,6 @@ export default function Abc() {
     selectionEndSetter.call(textArea, selectionEnd + 1);
     const inputEvt = new Event('input', { bubbles: true });
     textArea.dispatchEvent(inputEvt);
-  };
-  const handleClick = (evt) => {
-    // console.log('click', evt.target.value);
-    setSelectionStart(evt.target.selectionStart);
-    setSelectionEnd(evt.target.selectionEnd);
   };
   const handleDragEnd = (evt) => {
     // console.log('dragend', evt.target.value);
@@ -71,16 +65,6 @@ export default function Abc() {
       dispatchInput({ value, selectionEnd });
     } else if (evt.key === 'Alt') {
       evt.preventDefault();
-    } else if (evt.key === 'Backspace' || evt.key === 'Delete') {
-      const slxnStart = evt.target.selectionStart;
-      const selectionLength = getSelectionLength(evt.target);
-      const x = selectionLength ? slxnStart : slxnStart - 1;
-      setSelectionStart(x);
-      setSelectionEnd(x);
-    } else {
-      const x = evt.target.selectionEnd;
-      setSelectionStart(x);
-      setSelectionEnd(x);
     }
   };
   const showInfo = () => {
@@ -119,7 +103,6 @@ export default function Abc() {
     <Layout>
       <div className="abc-input-wrapper">
         <textarea
-          onClick={handleClick}
           onDragEnd={handleDragEnd}
           onInput={handleInput}
           onKeyDown={handleKeyDown}
@@ -154,7 +137,6 @@ export default function Abc() {
           font-size: 1.25rem;
           width: 100%;
           height: 100%;
-          resize: none;
           border: 1px solid rgba(0,0,0,.2);
         }
         .copied {
