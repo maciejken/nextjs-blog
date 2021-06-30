@@ -12,6 +12,13 @@ const getTextAreaSetterByPropName = (propName) => {
   ).set;
 }
 
+const scrollToBottom = (el) => {
+  const { clientHeight, scrollHeight } = el;
+  if (clientHeight < scrollHeight) {
+    el.scrollTop = scrollHeight - clientHeight;
+  }
+}
+
 const localStorageKey = 'AbcInput';
 
 export default function Abc() {
@@ -41,11 +48,12 @@ export default function Abc() {
     setSelectionStart(x);
   };
   const handleInput = (evt) => {
-    // console.log('input', evt.target.value);
+    // console.log('input', evt);
     setSelectionStart(evt.target.selectionStart);
     setSelectionEnd(evt.target.selectionEnd);
     setCurrentValue(evt.target.value);
     evt.target.selectionEnd = selectionEnd;
+    scrollToBottom(evt.target);
   };
   const handleKeymapChange = (evt) => {
     setKeyboard(evt.target.value);
