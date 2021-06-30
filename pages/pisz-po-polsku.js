@@ -33,6 +33,11 @@ export default function Abc() {
     const inputEvt = new Event('input', { bubbles: true });
     textArea.dispatchEvent(inputEvt);
   };
+  const handleClick = (evt) => {
+    const x = evt.target.selectionStart;
+    setSelectionEnd(x);
+    setSelectionStart(x);
+  };
   const handleDragEnd = (evt) => {
     // console.log('dragend', evt.target.value);
     evt.target.selectionStart = evt.target.selectionEnd;
@@ -103,6 +108,7 @@ export default function Abc() {
     <Layout>
       <div className="abc-input-wrapper">
         <textarea
+          onClick={handleClick}
           onDragEnd={handleDragEnd}
           onInput={handleInput}
           onKeyDown={handleKeyDown}
@@ -114,8 +120,8 @@ export default function Abc() {
           tabIndex={tabOffset + 1}
           id="abc-input"
         >
-        </textarea>
-        {infoTimeout && <div className="abc-input-info">Skopiowano!</div>}
+          {infoTimeout && <div className="abc-input-info">Skopiowano!</div>}
+        </textarea> 
       </div>
       <div className="abc-controls row">
         <Button onClick={copyToClipboard} tabIndex={tabOffset + 2}>
@@ -136,7 +142,7 @@ export default function Abc() {
         .abc-input {
           font-size: 1.25rem;
           width: 100%;
-          height: 100%;
+          min-height: 300px;
           border: 1px solid rgba(0,0,0,.2);
         }
         .copied {
@@ -146,7 +152,6 @@ export default function Abc() {
           margin: 2rem 0 0.5rem;
           position: relative;
           width: 100%;
-          height: 300px;
         }
         .abc-input-info {
           width: calc(100% - 4px);
