@@ -117,8 +117,8 @@ export default function Abc() {
           tabIndex={tabOffset + 1}
           id="abc-input"
         >
-          {infoTimeout && <div className="abc-input-info">Skopiowano!</div>}
-        </textarea> 
+        </textarea>
+        {infoTimeout && <div className="abc-input-info">Skopiowano!</div>}
       </div>
       <div className="abc-controls row">
         <Button onClick={copyToClipboard} tabIndex={tabOffset + 2}>
@@ -155,7 +155,7 @@ export default function Abc() {
           background-color: rgba(255,255,255, .85);
           position: absolute;
           left: 2px;
-          bottom: 2px;
+          bottom: calc(0.5rem + 2px);
           padding: 0.5rem 1rem;
           color: green;
           text-align: right;
