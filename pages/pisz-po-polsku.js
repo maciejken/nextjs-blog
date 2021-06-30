@@ -53,7 +53,6 @@ export default function Abc() {
     setSelectionEnd(evt.target.selectionEnd);
     setCurrentValue(evt.target.value);
     evt.target.selectionEnd = selectionEnd;
-    scrollToBottom(evt.target);
   };
   const handleKeymapChange = (evt) => {
     setKeyboard(evt.target.value);
@@ -102,6 +101,7 @@ export default function Abc() {
   useEffect(() => {
     abcInput.current.selectionStart = selectionStart;
     abcInput.current.selectionEnd = selectionEnd;
+    scrollToBottom(abcInput.current);
     localStorage.setItem(localStorageKey, currentValue);
     return () => {
       if (infoTimeout) {
