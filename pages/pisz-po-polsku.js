@@ -7,7 +7,9 @@ import Select from '../components/select';
 import Button from '../components/button';
 
 const getTextAreaSetterByPropName = (propName) => {
-  return Object.getOwnPropertyDescriptor(window.HTMLTextAreaElement.prototype, propName).set;
+  return Object.getOwnPropertyDescriptor(
+    window.HTMLTextAreaElement.prototype, propName
+  ).set;
 }
 
 const localStorageKey = 'AbcInput';
@@ -37,10 +39,6 @@ export default function Abc() {
     const x = evt.target.selectionStart;
     setSelectionEnd(x);
     setSelectionStart(x);
-  };
-  const handleDragEnd = (evt) => {
-    // console.log('dragend', evt.target.value);
-    evt.target.selectionStart = evt.target.selectionEnd;
   };
   const handleInput = (evt) => {
     // console.log('input', evt.target.value);
@@ -109,7 +107,6 @@ export default function Abc() {
       <div className="abc-input-wrapper">
         <textarea
           onClick={handleClick}
-          onDragEnd={handleDragEnd}
           onInput={handleInput}
           onKeyDown={handleKeyDown}
           value={currentValue}
