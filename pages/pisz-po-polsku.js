@@ -13,8 +13,10 @@ const getTextAreaSetterByPropName = (propName) => {
 }
 
 const scrollToBottom = (el) => {
-  const { clientHeight, scrollHeight } = el;
-  if (clientHeight < scrollHeight) {
+  const { clientHeight, scrollHeight, selectionEnd, value } = el;
+  const shouldScroll =
+    selectionEnd === value.length && clientHeight < scrollHeight;
+  if (shouldScroll) {
     el.scrollTop = scrollHeight - clientHeight;
   }
 }
