@@ -3,18 +3,14 @@ pipeline {
     node { label 'master' }
   }
   stages {
-    stage('install') {
+    stage('docker build') {
       steps {
-        sh 'node -v'
-        sh 'echo $PWD'
-        sh 'npm install'
+        sh 'docker build -t nextjs_blog .'
       }
     }
-    stage('build') {
+    stage('docker run') {
       steps {
-        sh 'rm -rf ${TARGET_DIR}/*'
-        sh 'npm run build'
-        sh 'cp -R ${PWD}/out/* ${TARGET_DIR}/'
+        sh 'docker-compose up -d'
       }
     }
   }
