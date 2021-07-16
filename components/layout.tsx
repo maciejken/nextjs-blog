@@ -1,12 +1,18 @@
 import Head from 'next/head';
 import styles from './layout.module.css';
 import Link from 'next/link';
-import Nav from '../components/nav';
+import Nav from './nav';
 import { navLinks } from '../constants/navlinks';
 
 export const siteTitle = '(e)malinowy dziennik sieciowy'
 
-export default function Layout({ children, home }) {
+export default function Layout({
+  children,
+  home
+}: {
+  children: React.ReactNode
+  home?: boolean
+}) {
   return (
     <div className={styles.container}>
       <Head>
@@ -31,7 +37,7 @@ export default function Layout({ children, home }) {
       {!home && (
         <div className={styles.backToHome}>
           <Link href="/">
-            <a>← Strona główna</a>
+            <a>&larr; Strona główna</a>
           </Link>
         </div>
       )}

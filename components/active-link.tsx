@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 import React, { Children } from 'react';
 
-const ActiveLink = ({ children, activeClassName, ...props }) => {
+const ActiveLink = ({
+  children, 
+  activeClassName,
+  href
+}) => {
   const { asPath } = useRouter()
   const child = Children.only(children)
   const childClassName = child.props.className || ''
@@ -11,13 +15,12 @@ const ActiveLink = ({ children, activeClassName, ...props }) => {
   // pages/index.js will be matched via props.href
   // pages/about.js will be matched via props.href
   // pages/[slug].js will be matched via props.as
-  const className =
-    asPath === props.href || asPath === props.as
+  const className = asPath === href
       ? `${childClassName} ${activeClassName}`.trim()
       : childClassName
 
   return (
-    <Link {...props}>
+    <Link href={href}>
       {React.cloneElement(child, {
         className: className || null,
       })}

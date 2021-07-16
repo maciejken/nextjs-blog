@@ -29,7 +29,7 @@ export default function TextArea({
   const [selectionStart, setSelectionStart] = useState(0);
   const [selectionEnd, setSelectionEnd] = useState(0);
 
-  const textArea = createRef();
+  const textArea = createRef<HTMLTextAreaElement>();
   const toastActive = isTextCopied || isTextCleared;
 
   const copyToClipboard = () => {
@@ -92,8 +92,8 @@ export default function TextArea({
   }, []);
 
   useEffect(() => {
-    textArea.current.selectionStart = selectionStart;
-    textArea.current.selectionEnd = selectionEnd;
+    (textArea.current as HTMLTextAreaElement).selectionStart = selectionStart;
+    (textArea.current as HTMLTextAreaElement).selectionEnd = selectionEnd;
     scrollToBottom(textArea.current);
     localStorage.setItem(localStorageKey, currentValue);
   }, [currentValue]);
