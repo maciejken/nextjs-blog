@@ -121,7 +121,6 @@ export default function TextArea({
         id={textAreaId}
       >
       </textarea>
-      {toastActive && <div className={styles.textAreaToast}>Skopiowano!</div>}
     </div>
   );
 }

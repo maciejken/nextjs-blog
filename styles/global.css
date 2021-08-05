@@ -8,6 +8,19 @@ body {
   font-size: 18px;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color:rgba(0,0,0, 0.2);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background-color:rgba(0,0,0, 0.3);
+}
+
 * {
   box-sizing: border-box;
 }
